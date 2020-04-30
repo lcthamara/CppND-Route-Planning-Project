@@ -76,9 +76,7 @@ RouteModel::Node *RoutePlanner::NextNode() {
         return _1st -> h_value + _1st -> g_value < _2nd -> h_value + _2nd -> g_value;
     });
     RouteModel::Node* lowest_pointer;
-    RouteModel::Node ThisIsTheSmallest;
-    ThisIsTheSmallest = *(open_list[0]);
-    lowest_pointer = &ThisIsTheSmallest;
+    lowest_pointer = open_list[0];
     open_list.erase(open_list.begin());
 
     return lowest_pointer;
@@ -141,17 +139,17 @@ void RoutePlanner::AStarSearch() {
     start_node -> visited = true;   /// do I need it?
     
     while (open_list.size() > 0 && current_node != end_node) {
-        
+        current_node = NextNode();
         if (current_node -> distance(*end_node) == 0) {
             m_Model.path = ConstructFinalPath(current_node);
             break;
         }
         else {
             AddNeighbors(current_node);
-            current_node = NextNode();
+            //current_node = NextNode();
         }       
     }
 
-    m_Model.path = ConstructFinalPath(current_node); ///dp I need it?
+    //m_Model.path = ConstructFinalPath(current_node); ///dp I need it?
     
 }
